@@ -1,0 +1,738 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="javascript," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'hide'
+  };
+</script>
+
+
+
+
+  <title> JavaScript读书笔记02 // 能不能改 </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">能不能改</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              JavaScript读书笔记02
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-06-28
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/JavaScript/">JavaScript</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/06/28/JavaScript读书笔记02/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/28/JavaScript读书笔记02/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h2 id="基本概念">基本概念</h2><h3 id="标识符">标识符</h3><p>所谓的标识符就是变量、函数、属性或者函数的名字，需要遵守以下规则：</p>
+<ol>
+<li>第一个字符必须是字母，下划线(_)，或者美元符号($)</li>
+<li>其他字符可以是字母，下划线，美元符号或者数字</li>
+</ol>
+<a id="more"></a>
+<p><strong>JavaScript中的一切都对大小写敏感</strong>，按照惯例，一般采用驼峰大小写的格式，也就是第一个字母小写，剩下的每个单词的首字母大写：</p>
+<p><code>firstSecond</code>, <code>myCar</code>, <code>doSomeThing</code></p>
+<h3 id="注释">注释</h3><ul>
+<li><p>单行注释</p>
+<p>  <code>//单行注释</code></p>
+</li>
+<li><p>多行注释</p>
+  <figure class="highlight gherkin"><table><tr><td class="code"><pre><span class="line">/<span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span>			这是一个多行注释</span><br><span class="line"> <span class="keyword">*</span>			也叫块级注释</span><br><span class="line"> <span class="keyword">*</span> <span class="variable">&lt;-当然，这些星号不是必须的，这里只是为了提高可读性</span><br><span class="line">*/</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="严格模式">严格模式</h3><p>ECMAScript5引入了严格模式(strict mode)， 在严格模式下，ECMAScript3中的一些不确定的行为将得到处理，而且对某些对象不安全的操作也会抛出错误。要在整个脚本中启动严格模式只需要在顶部添加如下代码：</p>
+<p><code>&quot;use strict&quot;;</code></p>
+<p>这个就是一个字符串，告诉编译器切换到严格模式，当然也可以在单个的函数中定义严格模式：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomeThing</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"><span class="pi">	"use strict"</span>;</span><br><span class="line">	<span class="comment">//函数体</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="语句">语句</h3><p>ECMAScript中语句以分号结尾，但是可以省略，由解析器来确定语句的结尾。<strong>推荐任何时候都不要省略分号</strong>， 一是可以让意图更加明显，避免很多错误；二是可以放心的删除多余的空格来压缩代码；三是可以提高性能，不用编译器花时间去推测断句。</p>
+<h3 id="变量">变量</h3><p>ECMAScript中的变量采用松散类型，就是变量可以用来保存任何类型的数据。定义变量用关键词<code>var</code>，后面接上变量名：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> message;</span><br></pre></td></tr></table></figure>
+<p>定义了一个名叫<code>message</code>的变量，它可以用来保存任何类型的值（但这里未经过初始化的变量将会保存着一个特殊的值——<code>undefined</code>）。当然也可以在定义变量的同时设定变量的值：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> message = <span class="string">"hello world"</span>;</span><br></pre></td></tr></table></figure>
+<p>所谓的变量就是可以改变的量，所以你可以去改变变量保存的值，甚至，你可以修改变量的类型：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">message = <span class="number">123</span>;	<span class="comment">//有效，但是不推荐这样做</span></span><br></pre></td></tr></table></figure>
+<p>其实不用关键词<code>var</code>也可以定义变量，直接省略<code>var</code>即可，区别在于用<code>var</code>定义的变量是该变量作用域中的局部变量，而省略掉之后成为了全局变量：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test1</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> message1 = <span class="string">"hello world"</span>;	<span class="comment">//局部变量</span></span><br><span class="line">&#125;</span><br><span class="line">test1();</span><br><span class="line">alert(message1);	<span class="comment">//错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test2</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	message2 = <span class="string">"hello world"</span>; 		<span class="comment">//全局变量</span></span><br><span class="line">&#125;</span><br><span class="line">test2();				<span class="comment">//调用一次test2之后message2就有了定义，可以一直访问</span></span><br><span class="line">alert(message2);		<span class="comment">//“hello world”</span></span><br></pre></td></tr></table></figure>
+<h3 id="数据类型">数据类型</h3><p>EXMAScript中有5种简单数据类型：Undeifined, Null, Boolean, Number和String; </p>
+<p>还有一种复杂数据类型——Object,Object本质上是由一组无序的键值对组成的。</p>
+<h4 id="typeof操作符"><code>typeof</code>操作符</h4><p>由于变量是松散的，所以需要一定的手段来检测给定变量的数据类型，这就是<code>typeof</code>负责的。对一个值使用<code>typeof</code>,返回的结果是可能是下列的某一个字符串：</p>
+<ul>
+<li><code>&quot;undefined&quot;</code>:这个值未定义；</li>
+<li><code>boolean</code>:这个值是布尔值；</li>
+<li><code>string</code>:这个值是字符串；</li>
+<li><code>number</code>:这个值是数值；</li>
+<li><code>object</code>:这个值是对象或者null</li>
+<li><code>function</code>:这个值是函数</li>
+</ul>
+<p><code>typeof</code>是一个<strong>操作符</strong>而不是一个函数，所以可以使用圆括号，也可以不使用：</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">typeof(&#34;hello world&#34;);&#9;//&#34;string&#34;&#10;typeof 98;&#9;&#9;&#9;&#9;//&#34;number&#34;</span><br></pre></td></tr></table></figure>
+<p>这里比较令人迷惑的是，<strong>null虽然是Null类型的一个值，但是<code>typeof null</code>返回的却是“Object”而不是“Null”</strong>，因为特殊值null被认为是对空对象的引用。</p>
+<h3 id="Undefined类型"><code>Undefined</code>类型</h3><p>Undefined类型只有一个值，就是undefined,在使用var定义变量但未对其进行初始化的时候，这个变量的值就是undeifined。</p>
+<h4 id="未定义的变量&amp;&amp;未初始化的变量">未定义的变量&amp;&amp;未初始化的变量</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">var</span> message;</span><br><span class="line"><span class="comment">//var age;</span></span><br><span class="line"></span><br><span class="line">alert(message);	<span class="comment">//"undefined"</span></span><br><span class="line">alert(age);		<span class="comment">//产生错误</span></span><br><span class="line"></span><br><span class="line">alert(<span class="keyword">typeof</span> message);		<span class="comment">//"undefined"</span></span><br><span class="line">alert(<span class="keyword">typeof</span> age);			<span class="comment">//"undefined"</span></span><br></pre></td></tr></table></figure>
+<p>对于未定义的变量只能执行一项操作，就是使用<code>typeof</code>检测类型，其他的操作会产生错误。然后<code>typeof</code>变量不能区分开这两种变量，因为虽然这两种变量从技术角度上讲有本质的区别，但是无论哪种变量，都是不可能执行真正操作的，都归类为<code>&quot;undefined&quot;</code>。</p>
+<h3 id="Null类型"><code>Null</code>类型</h3><p><code>Null</code>类型也只有一个值，这个就是<code>null</code>。从逻辑角度上讲，<code>null</code>值表示一个空对象的指针，这也是<code>typeof</code>返回<code>&quot;Object&quot;</code>的原因。</p>
+<p>如果定义的变量是准备在将来用来保存对象的，那么最好就可以把变量初始化为<code>null</code>。这样一来只需要去检查null值就知道相应的变量是否已经保存了一个对象的引用。</p>
+<p>实际上<code>undeifined</code>值是派生自<code>null</code>的，所以ECMA-262规定对他们的相等性测试要返回true：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">alert(undeifined == <span class="literal">null</span>);		<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<p><em>**<code>==</code>相等操作符会为了比较的目的，会对操作数进行转换，后面会详细介绍</em></p>
+<p>尽管<code>null</code>和<code>undefined</code>有这样的关系，但是他们的用途是完全不一样的。</p>
+<ul>
+<li>在任何情况下，都没有必要把变量初始化成<code>undefined</code>；</li>
+<li>但只要是意在保存变量却还没有真正保存对象时，应该明确的让对象保存<code>null</code></li>
+</ul>
+<h3 id="Boolean类型"><code>Boolean</code>类型</h3><p><code>Boolean</code>类型是使用的最多的一种类型，该类型有两个字面值：<code>true</code>，<code>false</code>。虽然字面值只有两个，但是ECMAScript中所有的类型的值都有与这两个值等价的值，要将一个值转换为等价的<code>Boolean</code>值只需要调用转型函数<code>Boolean()</code>，转换规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>数据类型</th>
+<th>转换为true的值</th>
+<th>转换为false的值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Boolean</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>Srting</td>
+<td>非空字符串</td>
+<td>“”(空字符串)</td>
+</tr>
+<tr>
+<td>Number</td>
+<td>任何非零数字</td>
+<td>0,NaN</td>
+</tr>
+<tr>
+<td>Object</td>
+<td>任何对象</td>
+<td>null</td>
+</tr>
+<tr>
+<td>Undefined</td>
+<td>n/a</td>
+<td>undefined</td>
+</tr>
+</tbody>
+</table>
+<p><strong>在<code>if</code>语句中也会按照这个规则进行自动转换</strong></p>
+<h3 id="Number类型"><code>Number</code>类型</h3><h4 id="整数">整数</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> intNum = <span class="number">44</span>;			<span class="comment">//整数</span></span><br><span class="line"><span class="keyword">var</span> octalNum = <span class="number">070</span>;			<span class="comment">//八进制以0开头</span></span><br><span class="line"><span class="keyword">var</span> hexNum = <span class="number">0x1f</span>;			<span class="comment">//十六进制以0x开头</span></span><br></pre></td></tr></table></figure>
+<h4 id="浮点数值">浮点数值</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> floatNum1 = <span class="number">1.9</span>;</span><br><span class="line"><span class="keyword">var</span> floatNum2 = <span class="number">30.0</span>;	<span class="comment">//会被解析成整数</span></span><br><span class="line"><span class="keyword">var</span> floatNum3 = <span class="number">2.903e7</span>	<span class="comment">//29030000</span></span><br></pre></td></tr></table></figure>
+<p>由于保存浮点的空间是整数的两倍，所以ECMAScript会不失时机的把<strong>能转换成整数的浮点数转成整数</strong></p>
+<p>浮点数值的精确度是17位小数，进行算术计算的适合精度远远不如整数，所以<strong>不要去测试某个特定的浮点数</strong></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">if</span>(a + b == <span class="number">0.9</span>)&#123;		<span class="comment">//不要去做这样的测试</span></span><br><span class="line">	alert(<span class="string">"this sum is 0.9"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="数值范围">数值范围</h4><p>由于内存的限制，ECMAScript并不能保存所有的数值,是有一定的范围的，超出这个范围将会被转换成<code>Infinity</code>(正无穷)或者<code>-Infinity</code>（负无穷),因为正负无穷都是不能参与计算的，要确定一个值是否是有穷的，可以通过<code>isFinite()</code>函数来判断：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> min = <span class="built_in">Number</span>.MIN_VALUE;	<span class="comment">//能保存的最小值</span></span><br><span class="line"><span class="keyword">var</span> max - <span class="built_in">Number</span>.MAX_VALUE;	<span class="comment">//能保存的最大值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> num = max + max;</span><br><span class="line">alert(num) 					<span class="comment">//Infinity</span></span><br><span class="line">alert(<span class="built_in">isFinite</span>(num))		<span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<h4 id="NaN"><code>NaN</code></h4><p><code>NaN</code>(Not a Number),是一个特殊的数值，表示本来要返回数值的的操作数却返回了不是数值的情况，这样就不会抛出错误。比如其他语言在遇到除以0的时候都会导致错误而停止代码执行，但是ECMAScript中不会停止代码执行，会返回相应的值：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">alert(<span class="number">100</span>/<span class="number">0</span>);		<span class="comment">//Infinity</span></span><br><span class="line">alert(-<span class="number">100</span>/<span class="number">0</span>);		<span class="comment">//-Infinity</span></span><br><span class="line">alert(<span class="number">0</span>/<span class="number">0</span>);			<span class="comment">//NaN</span></span><br></pre></td></tr></table></figure>
+<p><code>NaN</code>有两个特点：</p>
+<ul>
+<li>凡是NaN参与的运算都返回<code>NaN</code></li>
+<li>NaN和任何值都不相等，包括<code>NaN</code>本身（你不能保证两个都不值数值的值是相等的） </li>
+</ul>
+<p>针对这两个特点，ECMAScript定义了<code>isNaN()</code>函数，接受一个参数，判断参数是不是<code>NaN</code>。在接收到一个值时，会尝试将参数转换为数值。有些值虽然本身不是数值，但是是可以转换成数值的，就像<code>&quot;100&quot;</code>, <code>true</code>就可以转换成数值<code>100</code>和<code>1</code>。对于不能被转换成数值的值就会导致<code>isNaN()</code>返回<code>true</code>，其他则返回<code>false</code>。</p>
+<h4 id="数值转换">数值转换</h4><p>有三个函数可以把非数值转换成数值：</p>
+<ul>
+<li><code>Number()</code>: 把任意类型转换成数值</li>
+<li><code>parseInt()</code>: 把字符串转换成整数</li>
+<li><code>parseFloat()</code>: 把字符串转成换浮点数</li>
+</ul>
+<p><code>Number()</code>的转换规则：</p>
+<ul>
+<li>如果是<code>Boolean</code>，<code>true</code>和<code>false</code>分别转成<code>1</code>和<code>0</code>；</li>
+<li>如果是<code>Number</code>，只是简单的传入和传出；</li>
+<li>如果是<code>null</code>，返回<code>0</code>；</li>
+<li>如果是<code>undefined</code>，返回<code>NaN</code>；</li>
+<li>如果是字符串，遵守下面的规则：<ul>
+<li>如果只包含数字（包括前面的正负号），转换成对应的十进制数值</li>
+<li>如果包含有效的浮点格式，转换成对应的浮点格式数值</li>
+<li>如果包含有效的十六进制的格式，转换为相同大小的十进制数值</li>
+<li>如果为空，转换为<code>0</code></li>
+<li>如果包含上述格式之外的字符，转换为<code>NaN</code></li>
+</ul>
+</li>
+<li>如果是对象，调用对象的<code>valueOf()</code>方法，然后按照前面的规则转换返回值，如果转换的结果为<code>NaN</code>，则继续调用对象的<code>toString()</code>方法，在按照字符串规则转换返回值。</li>
+</ul>
+<p>因为<code>Number()</code>转换规则很复杂，并且转换字符串的适合有不合理的地方，所以一般更多的采用<code>parseInt()</code>来处理字符串转成数值。<code>parseInt()</code>的规则是：忽略掉前面的空格，直到找到第一个非空字符，如果第一个非空字符串不是数字或者正负号，则直接返回NaN，也就是空字符串也会返回NaN，但<code>Number()</code>会返回0。如果第一个非空字符是数字或者正负号，则继续解析第二个字符，直接解析完或者遇到非数字字符，例如<code>&quot;1234abcd&quot;</code>会被转换成<code>1234</code>,<code>&quot;12.2&quot;</code>会转换成<code>&quot;12&quot;</code>，因为小数点也不是有效的数字字符。</p>
+<p><strong><code>parseInt()</code>可以指定第二个参数来作为进制数</strong></p>
+<p>和<code>parseInt()</code>函数类似，<code>parseFloat()</code>也是从第一个字符开始一直解析到字符串尾，或者遇到一个无效的浮点数字字符为止。也就是说第一个小数点是有效的，而之后的小数点就是无效的。</p>
+<h3 id="String类型"><code>String</code>类型</h3><p><code>String</code>类型表示由零或多个16位Unicode字符组成的字符序列，即字符串。字符串可以用单引号或者双引号来表示。</p>
+<h4 id="字符串的不可变性">字符串的不可变性</h4><p>字符串一但创建就是不可变的，如果要改变某个变量保存的字符串，首先销毁掉原来的字符串，然后再用一个包含新值的字符串来赋值给该变量。</p>
+<h4 id="转换为字符串">转换为字符串</h4><p>把一个值转换成字符串有两种方法：</p>
+<ul>
+<li>几乎每个值都有<code>toString()</code>方法，除了null和undefined</li>
+<li>转型函数<code>String()</code><ul>
+<li><code>null</code> 返回<code>&quot;null&quot;</code></li>
+<li><code>`undefined</code> 返回 <code>&quot;undefined&quot;</code></li>
+<li>其他返回<code>toString()</code>的返回值</li>
+</ul>
+</li>
+</ul>
+<h3 id="Object类型"><code>Object</code>类型</h3><p>ECMAScript中的对象其实就是一组数据和功能的集合。对象通过<code>new</code>操作符后跟要穿件的对象类型的名称来创建。而创建<code>Object</code>类型的实例并为其添加属性或方法，就可以创建自定义的对象。<br>在ECMAScript中，<code>Object</code>类型是所有它的实例的基础，也就是<code>Object</code>类型所具有的任何属性和方法也同样存在于更具体的对象中。每个<code>Object</code>实例都具有以下属性和方法：</p>
+<ul>
+<li>constructor:构造函数，也就是创建当前对象的函数</li>
+<li><code>hasOwnProperty(propertyName)</code>:检测给定属性在当前实例中(不是实例的原型中)是否存在</li>
+<li><code>isPrototypeOf(Object)</code>:检测当前对象是否是传入对象的原型</li>
+<li><code>propertyIsEnumerable(propertyName)</code>:检测给定属性是否能使用<code>for-in</code>语句来枚举</li>
+<li><code>toLocalString()</code>:对象的字符串表示，与执行环境的地区对应</li>
+<li><code>toString()</code>:对象的字符串表示</li>
+<li><code>valueOf()</code>:对象的字符串、数值或布尔值的表示，通常和<code>toString()</code>返回的相同</li>
+</ul>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/"> #javascript </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/28/JavaScript读书笔记03/">JavaScript读书笔记03</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/28/JavaScript读书笔记01/">JavaScript读书笔记01</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/06/28/JavaScript读书笔记02/"
+               data-title="JavaScript读书笔记02" data-url="http://xionggai.github.com/2015/06/28/JavaScript读书笔记02/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1888998427/180/5612230201/1" alt="xionggai" />
+          <p class="site-author-name">xionggai</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">6</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/hustphysics" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+        
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-text">标识符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#严格模式"><span class="nav-text">严格模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语句"><span class="nav-text">语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变量"><span class="nav-text">变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据类型"><span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#typeof操作符"><span class="nav-text">typeof操作符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undefined类型"><span class="nav-text">Undefined类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#未定义的变量&&未初始化的变量"><span class="nav-text">未定义的变量&&未初始化的变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Null类型"><span class="nav-text">Null类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Boolean类型"><span class="nav-text">Boolean类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Number类型"><span class="nav-text">Number类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#整数"><span class="nav-text">整数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点数值"><span class="nav-text">浮点数值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值范围"><span class="nav-text">数值范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数值转换"><span class="nav-text">数值转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#String类型"><span class="nav-text">String类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字符串的不可变性"><span class="nav-text">字符串的不可变性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#转换为字符串"><span class="nav-text">转换为字符串</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object类型"><span class="nav-text">Object类型</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">xionggai</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xionggai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
