@@ -22,7 +22,7 @@
 
 
 
-  <meta name="keywords" content="Swift,iOS," />
+  <meta name="keywords" content="javascript," />
 
 
 
@@ -45,7 +45,7 @@
 
 
 
-  <title> Swift中的Optionals // 能不能改 </title>
+  <title> JavaScript读书笔记05 // 能不能改 </title>
 </head>
 
 <body>
@@ -148,7 +148,7 @@
           
           
             
-              Swift中的Optionals
+              JavaScript读书笔记05
             
           
         </h1>
@@ -156,14 +156,14 @@
 
       <div class="post-meta">
         <span class="post-time">
-          发表于 2015-06-28
+          发表于 2015-06-29
         </span>
 
         
           <span class="post-category">
             &nbsp; | &nbsp; 分类于
             
-              <a href="/categories/iOS/">iOS</a>
+              <a href="/categories/JavaScript/">JavaScript</a>
 
               
               
@@ -176,8 +176,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/06/28/Swift中的Optionals/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/28/Swift中的Optionals/"></span>
+            <a href="/2015/06/29/JavaScript读书笔记05/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/06/29/JavaScript读书笔记05/"></span>
             </a>
           </span>
           
@@ -191,34 +191,44 @@
       
 
       
-        <h2 id="问题">问题</h2><p>在Objective-C中实例对象会被自动初始化成nil，nil是一个指向一个不存在对象的指针，而且还可以对nil发送消息，当然消息不会被执行，就像对一个不存在的人发送命令一样，但同样也不会有导致任何问题，程序继续运行。例如:</p>
-<a id="more"></a>
-<figure class="highlight objc"><table><tr><td class="code"><pre><span class="line"><span class="built_in">NSString</span> *string;</span><br><span class="line"><span class="built_in">NSLog</span>(<span class="string">@"uppercase: %@"</span>, string<span class="variable">.uppercaseString</span>);</span><br></pre></td></tr></table></figure>
-<p>程序不会崩溃，会打印出<code>uppercase: (null)</code></p>
-<p>同样的代码放到Swift:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> string: <span class="type">String</span></span><br><span class="line"><span class="built_in">println</span>(string.uppercaseString)</span><br></pre></td></tr></table></figure>
-<p>编译器直接报错<code>Variable &#39;string&#39; used before been initialized</code>.根据错误提示，尝试去初始化string:</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> string: <span class="type">String</span> = <span class="literal">nil</span></span><br><span class="line"><span class="built_in">println</span>(string.uppercaseString)</span><br></pre></td></tr></table></figure>
-<p>好吧，问题来了，编译器继续提示错误<code>Type &#39;String&#39; does not conform to potocol NilLiteralConvertible</code></p>
-<h2 id="Optionals">Optionals</h2><p>上面的问题的原因是，Swift为了安全考虑，所有普通的变量和常量都必须包含一个值，而不能是没有值(nil)。但是有些时候确实是需要nil来指定变量暂时是没有值的，这就是Swift的Optional，可以指定任意的类型为Optional的，直接在类型后面加上<code>?</code>即可：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> string: <span class="type">String</span>?</span><br></pre></td></tr></table></figure>
-<p>如果没有对Optional类型的变量提供初始值，那么就会自动被初始化成为nil，原来OC中的类型是的Optional类型，而Swift中特意把可能缺失值的类型单独拿出来作为一个特殊的类型来处理，这样在写代码的时候，你就可以很清楚的指定当前操作的变量是不是可能为nil。</p>
-<p>当值可能会是缺失的时候，你就需要用到Optional，它就表明有两种情况，一是它有个值，就是x；或者它的值不存在，用nil来指示。</p>
-<p>并且需要注意的是，Swift中的nil和OC中的nil是有区别的：OC中的nil是指向不存在对象的一个指针，而Swift中的nil是特定类型的的值的一种缺失状态的表示，所有类型的值缺失都用nil来表示，不仅仅对类的实例，Int都可以的缺失也可以用nil来表示,这个在OC中是用NSNotFound来表示。</p>
-<h2 id="Unwrapping_an_Optional">Unwrapping an Optional</h2><p>在使用Optional的时候，首先得先确定它是否包含了一个值，这个可以直接用和nil之间的比较来完成:</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> someOptional != <span class="constant">nil</span>&#123;</span><br><span class="line">	<span class="comment">//the someOption contains a value</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="comment">//someOption contains non value</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Forced_Unwrapping_Optional">Forced Unwrapping Optional</h3><p>当确定了optional包含了一个值的时候，就可以放心的使用它，使用的时候在optional后面加上<code>!</code>，表示这个optional包含着的那个值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> someOptional != <span class="literal">nil</span>&#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"there is an value: <span class="subst">\(someOptional!)</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"there is no value."</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Optional_Bind">Optional Bind</h3><p>也可以用过Optional绑定的方法来使用Optional，绑定的方法是用一个临时的变量来存储optional里面的那个值：</p>
-<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> constName = someOptional&#123;</span><br><span class="line">	<span class="built_in">println</span>(<span class="string">"there is a value: <span class="subst">\(constName)</span>"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Implicitly_Unwrapped_Optionals">Implicitly Unwrapped Optionals</h3><p>有些时候对已经赋值了的Optional，我们很确定它一定是有值的，就没有必要再去每次检查和判断是否有值了，就可以在类型的后面加上<code>!</code>来表示确定有值存在的Optional，这种类型的变量就叫做：Implicitly Unwrapped Optional.可以理解成一种当成普通变量来使用的optional变量，在使用的时候自动unwrapped，而不需要每次使用都加<code>!</code>来强制解包。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> possibleString: <span class="built_in">String</span>? = <span class="string">"an optional string"</span></span><br><span class="line"><span class="keyword">let</span> forcedString = possibleString!	<span class="comment">//need forced unwrapped</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> assumedString: <span class="built_in">String</span>! = <span class="string">"an implicitly unwrapped string"</span></span><br><span class="line"><span class="keyword">let</span> implicatedString = assumedString	<span class="comment">//no need to unwrapped</span></span><br></pre></td></tr></table></figure>
-<p>当然也可以跟检查optional一样去检查implicitly unwrapped optional</p>
-<figure class="highlight smali"><table><tr><td class="code"><pre><span class="line">//to<span class="instruction"> check</span><br><span class="line"></span>if assumedString != nil&#123;</span><br><span class="line">	println(assumedString<span class="function">)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//to optional bind<span class="instruction"></span><br><span class="line">if </span>let definiteString = assumedString&#123;</span><br><span class="line">	println(definiteString<span class="function">)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>如果尝试去使用一个并不包含任何职的implicitly unwrapped optional，就会导致运行时错误，程序直接崩溃。所以如果不确定有值，就用普通的Optional</strong></p>
-<p>在使用implicitly unwrapped optional的场景中，最常见也最熟悉的就是IBOutlet变量了,拖拽一个UIButton到代码中，就自动生成了如下代码：</p>
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">@IBOutlet weak <span class="tag">var</span> <span class="tag">button</span>: UIButton!</span><br></pre></td></tr></table></figure>
-<p>button的类型为implicitly unwrapped optional，因为outlet不能保证button就一定是存在的，比如在storyboard里面被删掉了，所以是Optional的；但是不能每次使用button都得去unwrapped，这样太麻烦，而且这个button就是应该存在的，如果不存在，要么是代码有问题，要么是storyboard有问题，所以implicitly unwrapped optional就是最好的选择。如果button为nil而又去使用，程序会崩溃，但这也就发现了问题所在。</p>
+        <h2 id="执行环境及作用域">执行环境及作用域</h2><p>作用域是个很重要的概念，决定了标识符的有效的范围。但是在ECMAScript中，我们先抛开作用的概念和思路，从一个新的概念开始，这就是<strong>执行环境</strong>,它定义了变量或者函数有权访问的其他数据，决定了它们的各自行为。并且，每个执行环境都有一个与之关联的<strong>变量对象</strong>，执行环境中定义的所有变量和函数都保存在这个对象当中。虽然无法通过代码来访问这个对象，但是理解才能更好的理解ECMAScript是如何处理数据的。</p>
+<h3 id="执行环境">执行环境</h3><p>如上所述，执行环境定义了变量或者函数有权访问其他数据，决定了它们的各自行为。定义很拗口，下面慢慢理解。为了简单起见，执行环境有时候就被简称为“环境”。环境可以大致分为两种：</p>
+<ul>
+<li>全局环境: 最外围的执行环境。根据宿主环境的不同，表示执行环境的对象也不一样，在Web浏览器中，全局执行环境被认为是window对象。</li>
+<li>局部环境: 每个函数都会有自己的执行环境。当执行进入到一个函数中时，函数的环境就会被压到环境栈中，而在函数执行完后，函数的环境又会被弹出，还原到之前的环境栈。</li>
+</ul>
+<p><strong>所谓的局部环境其实是函数专属的</strong></p>
+<h3 id="作用域链">作用域链</h3><p>当代码在一个环境中执行时，会创建变量对象的一个作用域链，它的用途就是保证对执行环境有权访问的所有变量和函数的有序访问。所谓的作用域链就可以理解成一个变量对象组成的链表。<strong>作用域链的最前端，始终就是当前执行的代码所在环境的变量对象</strong>。下一个变量对象则来自下一个包含环境，这样一直延续到全局执行环境。<strong>全局环境始终是作用域链的最后一个对象</strong>。</p>
+<p>标识符的解析就是沿着作用域链一级一级的搜索标识符的过程。搜索过程从最前端开始，逐级向后回溯，一直到找到标识符的定义为止，如果没有找到，通常会导致错误。</p>
+ <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	color = <span class="string">"red"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">changeColor()</span><br><span class="line"></span><br><span class="line">alert(color);		<span class="comment">//"red"</span></span><br></pre></td></tr></table></figure>
+<p> 在这个例子当中，函数<code>changColor</code>的作用域链包含两个对象，第一个是函数自己的变量对象，其中定义着<code>arguments</code>对象,第二个也是最后一个则是全局环境的变量对象。可以在函数当中访问<code>color</code>变量也正是因为在这个作用域链中可以找到它。</p>
+<p>再看一个稍微复杂一点的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">changeColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> anotherColor = <span class="string">"red"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">swapColor</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> tmpColor = color;</span><br><span class="line">		color = anotherColor;</span><br><span class="line">		anotherColor = tmpColor;</span><br><span class="line">		<span class="comment">//这里能访问color, anotherColor和tmpColor</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//这里能访问color和anotherColor</span></span><br><span class="line">	swapColor();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//这里只能访问color</span></span><br><span class="line">changColor();</span><br></pre></td></tr></table></figure>
+<p>这里有三个执行环境：</p>
+<ul>
+<li>全局环境: 定义了color变量和changColor函数；</li>
+<li>changColor局部环境: 定义了anotherColor变量和swapColor函数；</li>
+<li>swapColor局部环境:定义了tmpColor变量；</li>
+</ul>
+<p>所以代码执行到 <code>swapColor()</code>内部时，作用域链是类似于：</p>
+<figure class="highlight brainfuck"><table><tr><td class="code"><pre><span class="line"><span class="comment">swapColor的变量对象</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="comment">changColor的变量对象</span><span class="literal">-</span><span class="literal">-</span>&gt;<span class="comment">全局变量对象</span></span><br></pre></td></tr></table></figure>
+<p>所以在<code>swapColor()</code>内部访问color, anotherColor和tmpColor，因为沿着作用域链找，可以找到他们全部。</p>
+<p>如果函数有参数，<strong>函数参数也被当做变量来对待，访问规则和执行环境中的其他变量是一致的</strong></p>
+<h3 id="没有块作用域">没有块作用域</h3><p>看到这，可能会觉得这个跟C语言的作用域不是一回事嘛，为什么非得弄个作用域链这个复杂的东西，按照C语言的作用域去理解也一样可以得到相同的结论。那下面我们就看一下是不是一回事：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	<span class="keyword">var</span> color = <span class="string">"blue"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(color);		<span class="comment">//"blue"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)&#123;</span><br><span class="line">	doSomething(i);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">alert(i);			<span class="comment">//10</span></span><br></pre></td></tr></table></figure>
+<p>结果是不是很出乎意料，按照C语言的块级作用域去理解，在块结束后是不能再访问其中的变量的，但这里显然不是这样的。但是按照上面ECMAScript的作用域链去理解就可以很好的解释这个结果，在ECMAScript中没有块级的作用域, <code>if</code>和<code>for</code>中定义的变量，会被添加到当前的执行环境中，所以在<code>if</code>和<code>for</code>结束之后还是可以继续的访问。</p>
+<h4 id="声明变量">声明变量</h4><p>综上所述，<strong>使用<code>var</code>定义的变量会自动被添加到最接近的环境中</strong>。原来这才是关键，不在乎定义的变量是在<code>if</code>语句块里还是在<code>for</code>循环了，它们和其他的普通定义的变量都是一样的。而如果<strong>初始化变量时没有用var声明，该变量会自动添加到全局环境中</strong>。这也很好的解释了之前的省略<code>var</code>定义的变量就是全局变量。</p>
+<h3 id="延长作用域链">延长作用域链</h3><p>虽然执行环境的类型只有两种——全局和局部(函数)，但是也有另外一些方法来延长作用域链。延长作用域链的方法是在当前的作用域链的前端临时增加一个变量对象，该变量对象会在代码执行后被移除。下面两种情况会发生这种现象，具体来说就是代码执行到下列任何一个语句时，作用域链会得到加长：</p>
+<ul>
+<li><code>try-catch</code>语句的<code>catch</code>块: 创建一个包含被抛出的错误对象的变量对象，将它增加到作用域链前；</li>
+<li><code>with</code>语句:将指定的对象增加到作用域链前。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">buildUrl</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> qs = <span class="string">"?debug=true"</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">with</span>(location)&#123;</span><br><span class="line">		<span class="keyword">var</span> url = href + qs;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子可以说明两点：</p>
+<ol>
+<li>在<code>with</code>语句块里定义的<code>url</code>也同样是添加到函数的环境中，所以可以在最后被返回；</li>
+<li><code>with</code>接受的是<code>location</code>对象，因此变量对象中就包含了<code>location</code>对象的所有属性和方法，被加到了作用域链的前端，所以可以直接访问<code>href</code>（其实是<code>location.href</code>)</li>
+</ol>
 
       
     </div>
@@ -227,9 +237,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Swift/"> #Swift </a>
-          
-            <a href="/tags/iOS/"> #iOS </a>
+            <a href="/tags/javascript/"> #javascript </a>
           
         </div>
       
@@ -238,11 +246,11 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/06/28/JavaScript读书笔记01/">JavaScript读书笔记01</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/28/科技和工作/">科技和工作</a>
             
           </div>
         </div>
@@ -262,8 +270,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2015/06/28/Swift中的Optionals/"
-               data-title="Swift中的Optionals" data-url="http://xionggai.github.com/2015/06/28/Swift中的Optionals/">
+          <div class="ds-thread" data-thread-key="2015/06/29/JavaScript读书笔记05/"
+               data-title="JavaScript读书笔记05" data-url="http://xionggai.github.com/2015/06/29/JavaScript读书笔记05/">
           </div>
         
       </div>
@@ -364,7 +372,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Optionals"><span class="nav-number">2.</span> <span class="nav-text">Optionals</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unwrapping_an_Optional"><span class="nav-number">3.</span> <span class="nav-text">Unwrapping an Optional</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Forced_Unwrapping_Optional"><span class="nav-number">3.1.</span> <span class="nav-text">Forced Unwrapping Optional</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Optional_Bind"><span class="nav-number">3.2.</span> <span class="nav-text">Optional Bind</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Implicitly_Unwrapped_Optionals"><span class="nav-number">3.3.</span> <span class="nav-text">Implicitly Unwrapped Optionals</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行环境及作用域"><span class="nav-number">1.</span> <span class="nav-text">执行环境及作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行环境"><span class="nav-number">1.1.</span> <span class="nav-text">执行环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用域链"><span class="nav-number">1.2.</span> <span class="nav-text">作用域链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#没有块作用域"><span class="nav-number">1.3.</span> <span class="nav-text">没有块作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#声明变量"><span class="nav-number">1.3.1.</span> <span class="nav-text">声明变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#延长作用域链"><span class="nav-number">1.4.</span> <span class="nav-text">延长作用域链</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
