@@ -1,0 +1,629 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="Swift,iOS," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'hide'
+  };
+</script>
+
+
+
+
+  <title> Think Functionally // 能不能改 </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">能不能改</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              Think Functionally
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2015-08-19
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/iOS/">iOS</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/08/19/Think-Functionally/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/08/19/Think-Functionally/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <p>函数在Swift里是一等公民，也就是说，函数可以被当做参数传递给其他的函数，并且函数也可以返回新的函数。如果你曾经和简单的类型打交道，比如整型、布尔型和结构体，那么这些说法就会显得很奇怪。这里我们讲尝试去解释为什么函数作为一等公民是有益的，并且实际提供函数式编程的一些例子。</p>
+<a id="more"></a>
+<h2 id="例子：超级战舰">例子：超级战舰</h2><p>我们从一个小例子开始介绍一等公民——函数：当我们在写一个类似于超级战舰的游戏时，我们很可能就需要实现这样一个函数。这个函数归结为决定对一个给定的点，判断它是不是在射程当中，并且不能离友军和我们自己太近。<br>一开始，你可能就写出一个非常简单的函数来判断给定点是不是在射程范围内。简单起见，我们假设自己的战舰位于原点上。我们想要描述的区域就如图所示：</p>
+<center><br>    <img src="http://7xkbic.com1.z0.glb.clouddn.com/think_functionally_image_1.png" alt="The Points in range of a ship located at the origin" style="width: 50%;"><br></center>
+
+
+<p>我们写出第一个函数<code>inRange1</code>， 检查一个点是不是在上图的灰色区域中。运用了一些简单的几何知识，我们写出如下的函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Position</span> = <span class="type">CGPoint</span></span><br><span class="line"><span class="keyword">typealias</span> <span class="type">Distance</span> = <span class="type">CGFloat</span></span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">inRange1</span><span class="params">(target: Position, range: Distance)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> sqrt(target.x * target.x + target.y * target.y) &lt;= range</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们用到了Swift中的<code>typealias</code>,它允许我们为一个已经存在的类型起一个新的名字。之后我们再写<code>Postion</code>就代表着是<code>CGPoint</code>，也就是坐标系中的<code>x</code>和<code>y</code>。</p>
+<p>如果一直假设我们自己的战舰位于原点，那这个函数就可以胜任了。但是假设我们的战舰也可能会存在于另外一个位置，<code>ownposition</code>，而不是在原点。我们将更新一下图示：</p>
+<center><br>    <img src="http://7xkbic.com1.z0.glb.clouddn.com/think_functionally_image_2.png" alt="Allowing the ship to have its ownposition" style="width: 50%;"><br></center>
+
+<p>现在我们将增加参数来表示自己战舰的位置：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">inRange2</span><span class="params">(target: Position, ownPosition: Position, range: Distance)</span></span> -&gt;  <span class="type">Bool</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> dx = ownPosition.x - target.x</span><br><span class="line">	<span class="keyword">let</span> dy = ownPosition.y - target.y</span><br><span class="line">	<span class="keyword">let</span> targetDistance = sqrt(dx * dx + dy * dy)</span><br><span class="line">	<span class="keyword">return</span> targetDistance &lt;= range</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们又意识到了，还有不能太靠近自己这个条件。我们继续更新我们的图示，我们将只想把目标瞄准至少离我们自己minimumDistance距离之外的敌人：</p>
+<center><br>    <img src="http://7xkbic.com1.z0.glb.clouddn.com/think_functionally_image_3.png" alt="Avoiding engaging enemies too close to the ship" style="width: 50%;"><br></center>
+
+<p>同时我们也更新代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">let</span> minimunDistance: <span class="type">Distance</span> = <span class="number">2.0</span></span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">inRang3</span><span class="params">(target: Position, ownPosition: Position, range: Distance)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> dx = ownPosition.x - target.x</span><br><span class="line">	<span class="keyword">let</span> dy = ownPosition.y - target.y</span><br><span class="line">	<span class="keyword">let</span> targetDistance = sqrt(dx * dx + dy * dy)</span><br><span class="line">	<span class="keyword">return</span> targetDistance &lt;= range &amp;&amp; targetDistance &gt;= minimunDistance</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，你还需要避免太靠近友军舰船的目标，再一次更新视图为：</p>
+<center><br>    <img src="http://7xkbic.com1.z0.glb.clouddn.com/think_functionally_image_4.png" alt="Avoiding engaging enemies too close to fridendly ship" style="width: 50%;"><br></center>
+
+<p>相应的，我们进一步增加一个参数来表示友军战舰的位置：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">inRange4</span><span class="params">(target: Position, ownPosition: Position, friendly: Position, range: Distance)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> dx = ownPosition.x - target.x</span><br><span class="line">	<span class="keyword">let</span> dy = ownPosition.y - target.y</span><br><span class="line">	<span class="keyword">let</span> targetDistance = sqrt(dx * dx + dy * dy)</span><br><span class="line">	<span class="keyword">let</span> friendlyDx = friendly.x - target.x</span><br><span class="line">	<span class="keyword">let</span> friendlyDy = friendly.y - target.y</span><br><span class="line">	<span class="keyword">let</span> friendlyDistance = sqrt(friendlyDx * friendlyDx + friendlyDy * friendlyDy)</span><br><span class="line">	<span class="keyword">return</span> targetDistance &lt;= range</span><br><span class="line">		&amp;&amp; targetDistance &gt;= minimunDistance</span><br><span class="line">		&amp;&amp; (friendlyDistance &gt;= minimunDistance)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>随着不断演化，代码变得越来越难掌握。这个方法变成了很复杂的一大堆东西。让我们尝试重构它，让它成为更细的组件。</p>
+<h2 id="一等公民——函数">一等公民——函数</h2><p>针对这里的代码，有很多种重构的方法。一个最明显的模式就是引入一个函数来计算两点之间的距离，或者检查两点是靠近还是远离的函数（或者一些关于靠近和远离的定义）。然而，这里我们采用一个略有不同的方法。</p>
+<p>我们回到问题的开始，归根结底，我们需要定义一个函数来决定一个点是不是在射程之内。这个类型的函数就是如下类型：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">pointInRange</span><span class="params">(point: Position)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">	<span class="comment">//Implement method here</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在我们的问题中，这个函数非常重要，所以我们单独给它一个名字：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typealias</span> <span class="type">Region</span> = <span class="type">Position</span> -&gt; <span class="type">Bool</span></span><br></pre></td></tr></table></figure>
+<p>从这开始，<code>Region</code>类型就代表了把<code>Position</code>转换成<code>Bool</code>的一类函数。严格来说，命名不是必须的，但是这将有助于我们对之后的内容理解。</p>
+<p>我们用一个函数——这个函数可以判断对于给定点是不是在射程当中——来表示一个区域，而不是采用一个类或者结构来表示。如果你之前没有过函数变成的经验，这里可能会显得有些奇怪，但是请务必记住的是函数就是Swift当中的一等公民。我们很自觉的选择了<code>Region</code>这个名字，而不是<code>CheckInregion</code>或者<code>RegionBlock</code>。这些名字暗示着它还是一个函数类型，但是函数式变成的内在哲学就是函数就是值，和结构体、整型或者布尔没有任何区别——采用不同的命名方式将违反这个哲学。</p>
+<p>现在开始我们讲写一些列的函数来创建，操作和结合区域。我们呢首先定义的区域就是<code>circle</code>,一个圆心在原点的圆形：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">circle</span><span class="params">(radius: Distance)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">	<span class="keyword">return</span> &#123; point <span class="keyword">in</span></span><br><span class="line">		sqrt(point.x * point.x + point.y * point.y) &lt;= radius</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，对于给定的半径r，调用cirecle(r)将返回一个函数。这里我们采用了Swift的闭包来构建我们需要返回的函数。返回的函数就是对于给定的点point，来检查它是不是在给定半径圆心在原点的圆里。</p>
+<p>当然不是所有的圆的圆心都在原点。我们可以增加更多的参数来表示circle，这里我们增加一个center参数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">circle2</span><span class="params">(radius: Distance, center: Position)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; point <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> shiftedPoint = <span class="type">Position</span>(x: point.x - center.x, y: point.y - center.y)</span><br><span class="line">        <span class="keyword">return</span> sqrt(shiftedPoint.x * shiftedPoint.x + shiftedPoint.y * shiftedPoint.y) &lt;= radius</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然而如果我们想要对其他的形状做相同的改变时，比如我们还有一些其他的形状，例如矩形，按照这个套路，我们很可能又要重复写这样的代码。一个更加具有函数性质的做法是写一个区域转换函数，这个函数把一个区域按照一个给定的位置来转换：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">shift</span><span class="params">(offset: Position, region : Region)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;point <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">let</span> shiftedPoint = <span class="type">Position</span>(x: point.x - offset.x, y: point.y - offset.y)</span><br><span class="line">        <span class="keyword">return</span> region(shiftedPoint)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数<code>shift(offset, region)</code>把一个区域<code>region</code>往右上方移动了offset.x和offset.y的距离。<code>shift</code>需要返回一个<code>Region</code>类型的值，而<code>Region</code>类型是一个把点转换成布尔的函数。一开始我们就写了另外一个闭包，引入了我们需要检查的点，通过这个点，我们通过坐标计算出另外一个新的点<code>（point.x - offset.x, point.y - offset.y)</code>。最后我们通过把新的点当做参数传进<code>region</code>函数来判断这个点是不是在原始的region当中。</p>
+<p>这也是函数式变成的一个核心概念：不要去创建不断增加的复杂的函数，比如<code>cicle2</code>，而是去另外写一个函数<code>shift</code>来修改另一个函数。举个例子，一个以(5, 5)为圆心半径为10的圆就可以表示为：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">shift(<span class="type">Position</span>(<span class="number">5</span>, <span class="number">5</span>), circle(<span class="number">10</span>))</span><br></pre></td></tr></table></figure>
+<p>像这样转换已经存在的区域的方式还有很多种，如果我们想通过取反一个区域，也就是获取原始区域以外的所有点组成的区域：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">invert</span><span class="params">(region: Region)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; point <span class="keyword">in</span> !region(point)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以把已经存在的区域组合起来，组成一个更大或者更加复杂的区域，比如去交集和并集：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">intersection</span><span class="params">(region1: Region, region2: Region)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; point <span class="keyword">in</span> region1(point) &amp;&amp; region2(point)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">union</span><span class="params">(region1: Region, region2: Region)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; point <span class="keyword">in</span> region1(point) || region2(point)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，我们还可以通过这些函数来定义更加丰富的区域。<code>difference</code>函数就接受两个区域作为参数，返回另一个区域，这个区域包含了所有在第一个区域而不在第二个区域的点的集合：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">difference</span><span class="params">(region: Region, minusRegion: Region)</span></span> -&gt; <span class="type">Region</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> intersection(region, region2: invert(minusRegion))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子展示了Swift可以计算和传递函数，就像整型或者布尔一样。这就让我们可以写出很小的初始函数（比如<code>circle</code>）然后在这基础之上建立一系列的函数，这些函数修改或者结合给定区域以得到新的区域。不用写出非常复杂的函数，而是写出一系列的小的函数，通过这些函数的组装来解决更多的问题。</p>
+<p>让我们回到最开始的问题上，通过上面一些列的函数，我们可以重构之前的那个复杂的<code>inRange</code>函数了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">inRange</span><span class="params">(ownPosition: Position, target: Position, friendly: Position, range: Distance)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> rangeRegion = difference(circle(range), minusRegion: circle(minimunDistance))</span><br><span class="line">    <span class="keyword">let</span> targetRegion = shift(ownPosition, region: rangeRegion)</span><br><span class="line">    <span class="keyword">let</span> friendlyRegion = shift(friendly, region: circle(minimunDistance))</span><br><span class="line">    <span class="keyword">let</span> resultRegion = difference(targetRegion, minusRegion: friendlyRegion)</span><br><span class="line">    <span class="keyword">return</span> resultRegion(target)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码中定义了两个区域:<code>targetRegion</code>和<code>friendlyRegion</code>，而目标区域就是两者的差。最后直接传递target给我们的目标区域，就能计算出想要的布尔值。</p>
+<p>和之前的<code>inRange4</code>函数相比，<code>inRange</code>针对相同的问题提出了一个更具声明性的解决方案。我们可以说<code>inRange</code>函数更好理解，因为这个方案是可组装的。为了理解<code>inRange</code>函数，我们首先得理解每一个组成部分的区域，比如<code>targetRegion</code>和<code>friendlyRegion</code>，然后弄清楚它们是如何结合起来解决问题的。然而对于<code>inRange4</code>，把子区域的计算和描述混杂在一起。利用一些帮助函数把这些概念分开，就正如我们之前做的，就可以增加解决复杂区域的程序的可组合性和易读性。</p>
+<p>把函数当成一等公民是这个办法奏效的必须条件，Objective-C同样支持一等公民函数或者block。但是很不幸的是block工作起来很笨重。部分原因是句法问题，声明block和block的类型都不像Swift那样直接。而且之后我们也会看到泛型将会让函数功能大增，将远远超过Objective-C中block能完成的功能。</p>
+<p>当然也并不是说我们定义的<code>Region</code>类型就是完美的。比如说，我们不能了解到一个区域是如何构成的：它是由小的区域组成的？还是就是一个简单的圆心在原点的圆形？我们知道的仅仅是对于给定的点，我们就知道它在或者是不在区域当中。如果我们想要可视化这个区域，我们讲采样足够的点来形成一个位图。</p>
+<h2 id="类型驱动的开发">类型驱动的开发</h2><p>在这个例子中，我们用一个具体的例子说明了函数式变成的设计方法。定义一些列的函数来描述区域，单独看起来它们都不是很强大。但是它们在一起，就可以描述你肯定不愿意去从头写的复杂区域。</p>
+<p>这个解决方案很简单并且优雅。它和你可能写出来的代码很不一样。它的核心设计思想是如何定义一个区域。一旦我们定义了<code>Region</code>类型，其他的定义就顺其自然的发生了。这个例子就是说明了<strong>慎重选择类型</strong>。是这个类型决定开发的进程，而不是其他的。</p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/"> #Swift </a>
+          
+            <a href="/tags/iOS/"> #iOS </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/12/JavaScript读书笔记08/">JavaScript读书笔记08</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/08/19/Think-Functionally/"
+               data-title="Think Functionally" data-url="http://xionggai.github.com/2015/08/19/Think-Functionally/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1888998427/180/5612230201/1" alt="xionggai" />
+          <p class="site-author-name">xionggai</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/hustphysics" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+        
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子：超级战舰"><span class="nav-number">1.</span> <span class="nav-text">例子：超级战舰</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一等公民——函数"><span class="nav-number">2.</span> <span class="nav-text">一等公民——函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型驱动的开发"><span class="nav-number">3.</span> <span class="nav-text">类型驱动的开发</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">xionggai</span>
+</div>
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xionggai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
