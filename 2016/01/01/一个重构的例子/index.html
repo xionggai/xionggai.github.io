@@ -1,0 +1,637 @@
+<!doctype html>
+<html class="theme-next use-motion theme-next-mist">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="Refactoring,Swift," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'hide'
+  };
+</script>
+
+
+
+
+  <title> 一个重构的例子 // 能不能改 </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">能不能改</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            <i class="menu-item-icon icon-categories"></i> <br />
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            标签
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              一个重构的例子
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          发表于 2016-01-01
+        </span>
+
+        
+          <span class="post-category">
+            &nbsp; | &nbsp; 分类于
+            
+              <a href="/categories/Read/">Read</a>
+
+              
+              
+
+            
+          </span>
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2016/01/01/一个重构的例子/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/01/一个重构的例子/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="一个重构的例子">一个重构的例子</h3><p> 在看《程序员的呐喊》里面看到了关于《重构》这本书的一些描述</p>
+<blockquote>
+<p>我注意到《重构》这本书是在2002年的时候，距离它出版已经好多年了。之前一直没读是因为出本它的是那帮搞UML的蠢货。我从来都不是他们的粉丝。<br> …<br> 《重构》偏偏就和这样的一堆烂书挤在一起，每次看到它我都直接扫过，从不停留一秒。别在烂书上浪费时间.直到2002年冬， 我在一家书店拿起它。没有什么特别的原因，纯碎是出于好奇而已。或许我在其他什么地方听到过“重构”这个词吧。<br> …<br> 接着一股恐惧袭上心头：他居然说的没错，有理有据。我最自豪的编程习惯——把中间值保存在局部变量里，作为简单的性能优化——显然是个坏习惯。中明明白白展示了这一点。它解释了我代码里某些方法为什么不断膨胀，那就是因为这些方法无法分割，这一点我之前我从未想到过。<br> …<br> 这本书接着告诉我，不要写注释。又是疯话！可他说的确有道理。<br> …<br> 我掏钱买它回家，反复研读。彻底震惊，太天才了。时至今日我也依然这么觉得，虽然那种震撼没有当天那么巨大。但这本书是在乃惊世之作，好似醍醐灌顶。这种事情可不常见。</p>
+</blockquote>
+<p>看到这样的描述都没有办法不去把它买回来好好研读一番，而且一开始对这本书的感受也跟他描述的一样，看见过很多次，但总感觉是本烂书，都不想翻开。今天是新年第一天，正好适合醍醐灌顶，于是从第一个例子开始，仔细研究，这里也用Swift来重写这个例子。原书中用的Java，所以会在一些特性上有所不同，而且我对Swift的理解也很有限，还没有完整的用Swift开发过一个产品，所以难免会有用的不妥当的特性。</p>
+<p> 源代码地址<a href="https://github.com/xionggai/movie-rental" target="_blank" rel="external">在此</a></p>
+<a id="more"></a>
+<h3 id="起点">起点</h3><p> 例子非常简单，是一个影碟出租公司的例子。从这个例子就可以看得出来，这本书的历史悠久了，现在哪还有出租影碟的？</p>
+<p> 整个程序就一个功能，根据顾客租了哪些影片、租期多长，算出费用和会员的积分。影片有三种类型，普通片、儿童片和新片，而费用和积分的计算规则是因类型而异的。<br> 简单的UML类图如下：</p>
+<p> <img src="http://7xkbic.com1.z0.glb.clouddn.com/RentalMovie_1.png" alt="RentalMovie_1"></p>
+<p> 代码如下：</p>
+<p> <strong>Movie</strong></p>
+ <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Movie</span></span><br><span class="line"><span class="class"><span class="keyword">enum</span> <span class="title">MovieType</span> </span>&#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Children</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">Regular</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">NewRelease</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Movie</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> title: <span class="type">String</span></span><br><span class="line">    <span class="keyword">let</span> priceCode: <span class="type">MovieType</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(title: <span class="type">String</span>, priceCode: <span class="type">MovieType</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title</span><br><span class="line">        <span class="keyword">self</span>.priceCode = priceCode</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Movie&lt;title <span class="subst">\(title)</span>, proce code: <span class="subst">\(priceCode)</span>&gt;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> <strong>Rental</strong></p>
+ <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Rental</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rental</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> movie: <span class="type">Movie</span></span><br><span class="line">    <span class="keyword">let</span> daysRented: <span class="type">Int</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(movie: <span class="type">Movie</span>, daysRented: <span class="type">Int</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.movie = movie</span><br><span class="line">        <span class="keyword">self</span>.daysRented = daysRented</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"Rental&lt;movie: <span class="subst">\(movie.description)</span> rent days: <span class="subst">\(daysRented)</span>&gt;"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> <strong>Customer</strong></p>
+ <figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"> <span class="comment">//Customer</span></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span>: <span class="title">NSObject</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> name: <span class="type">String</span></span><br><span class="line">    <span class="keyword">var</span> rentals: [<span class="type">Rental</span>] = [<span class="type">Rental</span>]()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(name: <span class="type">String</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">addRental</span><span class="params">(arg: Rental)</span></span> &#123;</span><br><span class="line">        rentals.append(arg)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="keyword">var</span> description: <span class="type">String</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">var</span> des: <span class="type">String</span> = <span class="string">"Cutomer name is <span class="subst">\(name)</span>:"</span></span><br><span class="line">            <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">                des += <span class="string">"\n"</span></span><br><span class="line">                des += rental.description</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> des;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">statement</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> totalAmount: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">        <span class="keyword">var</span> frequentRenterPoints = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">String</span> = <span class="string">"Rental Record for <span class="subst">\(name)</span> \n"</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> thisAmount: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">switch</span> (rental.movie.priceCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> .<span class="type">Regular</span>:</span><br><span class="line">                thisAmount += <span class="number">2</span></span><br><span class="line">                <span class="keyword">if</span> (rental.daysRented &gt; <span class="number">2</span>) &#123;</span><br><span class="line">                    thisAmount += (<span class="type">Double</span>)(rental.daysRented - <span class="number">2</span>) * <span class="number">1.5</span></span><br><span class="line">                &#125;</span><br><span class="line">            <span class="keyword">case</span> .<span class="type">NewRelease</span>:</span><br><span class="line">                thisAmount += (<span class="type">Double</span>)(rental.daysRented) * <span class="number">3.0</span></span><br><span class="line">            <span class="keyword">case</span> .<span class="type">Children</span> :</span><br><span class="line">                thisAmount += <span class="number">1.5</span></span><br><span class="line">                <span class="keyword">if</span> (rental.daysRented &gt; <span class="number">3</span>) &#123;</span><br><span class="line">                    thisAmount += (<span class="type">Double</span>)(rental.daysRented - <span class="number">3</span>) * <span class="number">1.5</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            frequentRenterPoints++</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (rental.movie.priceCode == .<span class="type">NewRelease</span> &amp;&amp; rental.daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                frequentRenterPoints++</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(thisAmount)</span> \n"</span></span><br><span class="line">            totalAmount += thisAmount</span><br><span class="line">        &#125;</span><br><span class="line">        result += <span class="string">"Amount owned is <span class="subst">\(totalAmount)</span> \n"</span></span><br><span class="line">        result += <span class="string">"You earned <span class="subst">\(frequentRenterPoints)</span> frequent renter points"</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>该阶段的代码<a href="https://github.com/xionggai/movie-rental/tree/shage_1" target="_blank" rel="external">在此</a><br> 你对这个程序的印象如何？反正我是没有耐心看完<code>statement()</code>这个方法的，它做的事情太多了。如果现在我们需要增加一个方法<code>HTMLStatement()</code>，那么我们只能编写一个全新的方法来大量重复<code>statement()</code>里面的代码。然后如果计费的方法或者积分的规则发生了变化，你就又不得不去修改两个地方。<br>所以现在很简单的规则下，这段代码是可以正确输出的，但是随着规则的变化，代码会越来越难以适应新的规则，维护会越来越困难。</p>
+<h3 id="重构的第一步">重构的第一步</h3><p>所有重构的第一步都是一样的——为即将修改的代码简建立一组可靠的测试环境。好的测试是重构的根本，花时间去建立优良的测试机制是完全值得的。后面会专门的讨论关于测试。</p>
+<h3 id="分解并重组statement()">分解并重组statement()</h3><h4 id="代码提取">代码提取</h4><p>代码最严重的问题在于长的离谱的<code>statement()</code>。要明确的是，代码块越小，代码的功能就越容易管理，代码的处理和移动也越轻松。<br>这一节的目的是将长函数切开，把较小的块移到合适的类中。<br>第一步是找出代码里的逻辑泥团，然后运用<strong>Extract Method</strong>规则</p>
+<blockquote>
+<p>你有一段代码可以组织在一起，并且独立出来</p>
+</blockquote>
+<p>这里我们首先发现的一个泥团就是<code>switch</code>语句，应该把它提到单独的函数中。首先找出这段代码中的函数内的局部变量和参数。这段代码里有两个变量，<code>rental</code>和<code>thisAmount</code>，前者并未被修改，而后者会被修改。任何不会被修改的变量都可以被当成参数传入新的函数。而回被修改的变量可以被当做是返回值处理，<code>thisAmount</code>是个临时变量，其值会在每次循环起始处被设为<code>0</code>，并且在<code>switch</code>之前不会改变，所以可以直接把新函数的返回值赋值给它。</p>
+<p>下面就是提取出来的新函数：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">amountForEach</span><span class="params">(aRental: Rental)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (aRental.movie.priceCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Regular</span>:</span><br><span class="line">            result += <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> (aRental.daysRented &gt; <span class="number">2</span>) &#123;</span><br><span class="line">                result += (<span class="type">Double</span>)(aRental.daysRented - <span class="number">2</span>) * <span class="number">1.5</span></span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">NewRelease</span>:</span><br><span class="line">            result += (<span class="type">Double</span>)(aRental.daysRented) * <span class="number">3.0</span></span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Children</span> :</span><br><span class="line">            result += <span class="number">1.5</span></span><br><span class="line">            <span class="keyword">if</span> (aRental.daysRented &gt; <span class="number">3</span>) &#123;</span><br><span class="line">                result += (<span class="type">Double</span>)(aRental.daysRented - <span class="number">3</span>) * <span class="number">1.5</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>而对应的在<code>statement()</code>中的使用部分是：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">    <span class="keyword">let</span> thisAmount: <span class="type">Double</span> = amountForEach(rental)</span><br><span class="line"></span><br><span class="line">    frequentRenterPoints++</span><br><span class="line">    <span class="keyword">if</span> (rental.movie.priceCode == .<span class="type">NewRelease</span> &amp;&amp; rental.daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        frequentRenterPoints++</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(thisAmount)</span> \n"</span></span><br><span class="line">    totalAmount += thisAmount</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个改动是很小，但是我们也单独拿出来说了，原因就是<strong>重构技术就是以微小的步伐去改变程序</strong>。如果犯了错，很容易就可发现。<br>我们可以重新编译程序，并且测试，看我们的重构过程是否影响了程序的正确性。</p>
+<h3 id="搬移函数">搬移函数</h3><p>观察一下刚刚抽取的函数<code>amountFor()</code>，发现这个函数中使用了<code>Rental</code>类中的信息，但是却并没有使用来自<code>Customer</code>类的信息。这立刻让我怀疑它是不是放错了位置。绝大多数情况下，<strong>函数应该放在它所使用的数据的所属对象内</strong>，所以<code>amountFor()</code>应该被移到<code>Rental</code>中去。这里要运用<strong>Move Method</strong></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Rental</span></span><br><span class="line"><span class="keyword">var</span> charge: <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">switch</span> (movie.priceCode) &#123;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Regular</span>:</span><br><span class="line">            result += <span class="number">2</span></span><br><span class="line">            <span class="keyword">if</span> (daysRented &gt; <span class="number">2</span>) &#123;</span><br><span class="line">                result += (<span class="type">Double</span>)(daysRented - <span class="number">2</span>) * <span class="number">1.5</span></span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">case</span> .<span class="type">NewRelease</span>:</span><br><span class="line">            result += (<span class="type">Double</span>)(daysRented) * <span class="number">3.0</span></span><br><span class="line">        <span class="keyword">case</span> .<span class="type">Children</span> :</span><br><span class="line">            result += <span class="number">1.5</span></span><br><span class="line">            <span class="keyword">if</span> (daysRented &gt; <span class="number">3</span>) &#123;</span><br><span class="line">                result += (<span class="type">Double</span>)(daysRented - <span class="number">3</span>) * <span class="number">1.5</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后对应的在<code>Cutomer</code>中的使用:</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">amountForEach</span><span class="params">(aRental: Rental)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> aRental.charge</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后查找使用了<code>amountFor()</code>的地方，这里很简单只有一处，替换它，最后删掉<code>amountFor()</code>：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">            <span class="keyword">let</span> thisAmount: <span class="type">Double</span> = rental.charge</span><br><span class="line"></span><br><span class="line">            frequentRenterPoints++</span><br><span class="line">            <span class="keyword">if</span> (rental.movie.priceCode == .<span class="type">NewRelease</span> &amp;&amp; rental.daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                frequentRenterPoints++</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(thisAmount)</span> \n"</span></span><br><span class="line">            totalAmount += thisAmount</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>然后，下一个发现的问题是<code>thisAmount</code>变的多余，仅仅是接受了<code>rental.charge</code>的结果，然后就不再变化了，所以运用<strong>Replace Temp with Query</strong>来去除<code>thisAmount</code>:</p>
+<blockquote>
+<p>你的程序以一个临时变量保存某一个表达式的运算结果。将这个表达式提炼到一个独立的函数中。将这个临时变量的所有引用点替换为对新函数的调用。此后，新函数就可被其他函数调用。</p>
+</blockquote>
+<p>替换后的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">let</span> thisAmount = rental.charge</span><br><span class="line"></span><br><span class="line">            frequentRenterPoints++</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (rental.movie.priceCode == <span class="type">Movie</span>.<span class="type">MovieType</span>.<span class="type">NewRelease</span> &amp;&amp; rental.daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">                frequentRenterPoints++</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(thisAmount)</span> \n"</span></span><br><span class="line">            totalAmount += thisAmount</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>每次修改都保持程序的正确性，编译测试，保证没有破坏任何东西。<br>我比较喜欢尽量的去除临时变量，临时变量往往引发问题，它们会导致大量的参数被传来传去，而其实完全没有这种必要。当然这么做也需要付出性能的代价。例子中的费用就被计算了两次，但是这很容易在<code>Rental</code>类中被优化。而且如果代码有合理的组织和管理，优化就会有更好的效果。</p>
+<h4 id="提炼和搬移积分代码">提炼和搬移积分代码</h4><p>下面我们针对积分的代码做类似的处理，首先提取函数，然后搬移到<code>Rental</code>中</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Rental</span></span><br><span class="line"><span class="keyword">var</span> frequentRenterPoints : <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> movie.priceCode == .<span class="type">NewRelease</span> &amp;&amp; daysRented &gt; <span class="number">1</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>而对应的<code>statement()</code>也相应的被简化了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">statement</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> totalAmount: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">var</span> frequentRenterPoints:<span class="type">Double</span> = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> result: <span class="type">String</span> = <span class="string">"Rental Record for <span class="subst">\(name)</span> \n"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line"></span><br><span class="line">        frequentRenterPoints += rental.frequentRenterPoints</span><br><span class="line">        result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(rental.charge)</span> \n"</span></span><br><span class="line">        totalAmount += rental.charge</span><br><span class="line">    &#125;</span><br><span class="line">    result += <span class="string">"Amount owned is <span class="subst">\(totalAmount)</span> \n"</span></span><br><span class="line">    result += <span class="string">"You earned <span class="subst">\(frequentRenterPoints)</span> frequent renter points"</span></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="去除临时变量">去除临时变量</h4><p>正如前面提到的，临时变量可能是个问题。这里还有两个临时变量:<code>totalAmount</code>和<code>frequentRenterPoints</code>，两者都是用来从Customer中的Rental对象中获取某个总量，不论是<code>statement()</code>还是<code>HTMLStatemnet()</code>都会使用到它们，所以继续利用<strong>Replace Temp with Query</strong>来替代这两个临时变量。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Cunstomer</span></span><br><span class="line">private <span class="keyword">var</span> totalCharge: <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">            result += rental.charge</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private <span class="keyword">var</span> totalFrequentRenterPoints: <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">get</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">            result += rental.frequentRenterPoints</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">statement</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> result: <span class="type">String</span> = <span class="string">"Rental Record for <span class="subst">\(name)</span> \n"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line"></span><br><span class="line">        result += <span class="string">"\t <span class="subst">\(rental.movie.title)</span> \t <span class="subst">\(rental.charge)</span> \n"</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    result += <span class="string">"Amount owned is <span class="subst">\(totalCharge)</span> \n"</span></span><br><span class="line">    result += <span class="string">"You earned <span class="subst">\(totalFrequentRenterPoints)</span> frequent renter points"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到现在，我们终于可以戴上添加新功能的帽子，增加<code>HTMLStatment()</code></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Customer</span></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">HTMLStatement</span><span class="params">()</span></span> -&gt; <span class="type">String</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">String</span> = <span class="string">"&lt;h1&gt;Rentals for &lt;em&gt;<span class="subst">\(name)</span>&lt;/em&gt;&lt;/h1&gt;&lt;p&gt;\n"</span></span><br><span class="line">        <span class="keyword">for</span> rental <span class="keyword">in</span> rentals &#123;</span><br><span class="line">            result += <span class="string">"<span class="subst">\(rental.movie.title)</span>: <span class="subst">\(rental.charge)</span> &lt;br&gt;\n"</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        result += <span class="string">"&lt;p&gt;You owe &lt;em&gt;<span class="subst">\(totalCharge)</span> &lt;/em&gt;&lt;p&gt;\n"</span></span><br><span class="line">        result += <span class="string">"On this rental you earned &lt;em&gt;<span class="subst">\(totalFrequentRenterPoints)</span>&lt;/em&gt; frequent renter points&lt;p&gt;"</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>该阶段的代码<a href="https://github.com/xionggai/movie-rental/tree/stage_2" target="_blank" rel="external">在此</a><br>到现在，我们的类图进化如下：<br><img src="http://7xkbic.com1.z0.glb.clouddn.com/RentalMovie_2.png" alt="MovieRental_2"></p>
+<h3 id="运用多态取代与价格相关的条件逻辑">运用多态取代与价格相关的条件逻辑</h3><p>这个问题的第一步是<code>switch</code>语句。最好不要在另外一个对象的属性基础上运用<code>switch</code>语句，如果不得不使用，也应该在自己的数据上使用，而不是别人的数据上用。这暗示着Rental中的charge应该被移到Movie中去。计算租金需要两部分数据，一是租期，这在Rental中，二是需要电影类型，在这Movie中。为什么我们选择把租期传给Movie而不是反过来呢？这是因为在本系统中可能的变化是新影片类型的加入，我们希望把这些变化封装在Movie中，而不是变化之后需要修改各个地方。所以：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Movie</span></span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">getCharge</span><span class="params">(DaysRented daysRented: Int)</span></span> -&gt; <span class="type">Double</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">switch</span>(priceCode) &#123;</span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Children</span>:</span><br><span class="line">        result += <span class="number">1.5</span></span><br><span class="line">        <span class="keyword">if</span> (daysRented &gt; <span class="number">3</span>) &#123;</span><br><span class="line">            result += (<span class="type">Double</span>)(daysRented - <span class="number">3</span>) * <span class="number">1.5</span></span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> .<span class="type">Regular</span>:</span><br><span class="line">        result += <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> (daysRented &gt; <span class="number">2</span>) &#123;</span><br><span class="line">            result += (<span class="type">Double</span>)(daysRented - <span class="number">2</span>) * <span class="number">1.5</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">case</span> .<span class="type">NewRelease</span>:</span><br><span class="line">        result += <span class="type">Double</span>(daysRented) * <span class="number">3.0</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="func"><span class="keyword">func</span> <span class="title">getFrequentRenterPoints</span><span class="params">(DaysRented daysRented: Int)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (priceCode == .<span class="type">NewRelease</span> &amp;&amp; daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Rental</span></span><br><span class="line"><span class="keyword">var</span> charge: <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> movie.getCharge(<span class="type">DaysRented</span>: daysRented)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> frequentRenterPoints : <span class="type">Double</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> movie.getFrequentRenterPoints(<span class="type">DaysRented</span>: daysRented)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="终于，我们来到了继承">终于，我们来到了继承</h4><p>我们有多重影片类型，它们以不同的方式回答各自的问题。这听起来很像是子类的工作。假设我们我们建立3个Movie的子类，每个子类都有自己的计费方法，这么一来我们可以用多态来取代<code>switch</code>语句了。但是很遗憾的是，这里有个小问题，就是一部影片可以在生命周期内修改自己的分类方法，但是一个对象却不可以。所以这里的解决方法是：State模式：</p>
+<p><img src="http://7xkbic.com1.z0.glb.clouddn.com/RentalMovie_3.png" alt="RentalMovie_3"></p>
+<p>首先要使用<strong>Replace Type Code with State/Strategy</strong>，第一步是针对类型代码使用<strong>Self Encapsulate Field</strong>来确保通过getter和setter来访问类型代码。也就是<code>priceCode</code>属性需要通过<code>getter</code>和<code>setter</code>来使用，这样的属性在Swift里叫做<strong>computed property</strong>，与之相对应的是<strong>stored property</strong>。在这里把<code>priceCode</code>作为了计算属性，而新增加一个存储属性是遵守’Price’协议的<code>price</code>属性：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Movie</span></span><br><span class="line"><span class="keyword">var</span> priceCode: <span class="type">MovieType</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> price.priceCode</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">set</span> &#123;</span><br><span class="line">            <span class="keyword">switch</span> (newValue) &#123;</span><br><span class="line">            <span class="keyword">case</span> .<span class="type">Regular</span>:</span><br><span class="line">                price = <span class="type">RegularPrice</span>()</span><br><span class="line">            <span class="keyword">case</span> .<span class="type">Children</span>:</span><br><span class="line">                price = <span class="type">ChildrenPrice</span>()</span><br><span class="line">            <span class="keyword">case</span> .<span class="type">NewRelease</span>:</span><br><span class="line">                price = <span class="type">NewReleasePrice</span>()</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">var</span> price: <span class="type">Price</span>!</span><br><span class="line"></span><br><span class="line">    <span class="keyword">init</span>(title: <span class="type">String</span>, priceCode: <span class="type">MovieType</span>) &#123;</span><br><span class="line">        <span class="keyword">self</span>.title = title</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">        <span class="keyword">self</span>.priceCode = priceCode</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>新增加的Price协议如下：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Price</span></span><br><span class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Price</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> priceCode: <span class="type">MovieType</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">getCharge</span><span class="params">(daysRented: Int)</span></span> -&gt; <span class="type">Double</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>遵守Price协议的三个类分别是<code>RegularPrice</code>, <code>ChildrenPrice</code>和<code>NewReleasePrice</code>。这里仅列出<code>RegularPrice</code>代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//RegularPrice</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RegularPrice</span>: <span class="title">NSObject</span>, <span class="title">Price</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> priceCode: <span class="type">MovieType</span> &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> .<span class="type">Regular</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">getCharge</span><span class="params">(daysRented: Int)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> result: <span class="type">Double</span> = <span class="number">2</span></span><br><span class="line">        <span class="keyword">if</span> daysRented &gt; <span class="number">2</span> &#123;</span><br><span class="line">            result += <span class="type">Double</span>(daysRented - <span class="number">2</span>) * <span class="number">1.5</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里，我们解决了计费的问题，同样的情况需要在积分上使用。积分和计费有一个不同是积分并不像计费的规则那样，每一种类型都是不同的，积分仅仅是新片有所不同，而其他的类型都是一样的，所以在书中在超类中去掉了<code>abstract</code>，在超类中定义一个函数，成为默认的行为，而只需要在<code>NewReleasePrice</code>重写即可，但是Swift并没有类似的概念。这里有两种解决办法，一是模拟Java中的虚函数的概念，基类用<code>class</code>而不是<code>protocol</code>,提供所有的默认方法，并且在必须在子类中实现的方法中直接抛出错误。二是，可以继续使用协议，利用协议的拓展来实现积分的计算，而不需要具体的类知道发生了什么。这里我们贴出后者的代码：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Price</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">Price</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="func"><span class="keyword">func</span> <span class="title">getFrequentRenterPoints</span><span class="params">(daysRented: Int)</span></span> -&gt; <span class="type">Double</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (priceCode == .<span class="type">NewRelease</span> &amp;&amp; daysRented &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这时候的代码<a href="https://github.com/xionggai/movie-rental/tree/stage_3" target="_blank" rel="external">在此</a></p>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Refactoring/"> #Refactoring </a>
+          
+            <a href="/tags/Swift/"> #Swift </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/19/女神一号/">女神一号</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2016/01/01/一个重构的例子/"
+               data-title="一个重构的例子" data-url="http://xionggai.github.com/2016/01/01/一个重构的例子/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="http://tp4.sinaimg.cn/1888998427/180/5612230201/1" alt="xionggai" />
+          <p class="site-author-name">xionggai</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            <a href="/categories">
+              <span class="site-state-item-count">3</span>
+              <span class="site-state-item-name">分类</span>
+              </a>
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">7</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/hustphysics" target="_blank">Weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element">
+            <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+        
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个重构的例子"><span class="nav-number">1.</span> <span class="nav-text">一个重构的例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#起点"><span class="nav-number">2.</span> <span class="nav-text">起点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重构的第一步"><span class="nav-number">3.</span> <span class="nav-text">重构的第一步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分解并重组statement()"><span class="nav-number">4.</span> <span class="nav-text">分解并重组statement()</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码提取"><span class="nav-number">4.1.</span> <span class="nav-text">代码提取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搬移函数"><span class="nav-number">5.</span> <span class="nav-text">搬移函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#提炼和搬移积分代码"><span class="nav-number">5.1.</span> <span class="nav-text">提炼和搬移积分代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#去除临时变量"><span class="nav-number">5.2.</span> <span class="nav-text">去除临时变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#运用多态取代与价格相关的条件逻辑"><span class="nav-number">6.</span> <span class="nav-text">运用多态取代与价格相关的条件逻辑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#终于，我们来到了继承"><span class="nav-number">6.1.</span> <span class="nav-text">终于，我们来到了继承</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp;  2015 - 
+  2016
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">xionggai</span>
+</div>
+
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"xionggai"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
